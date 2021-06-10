@@ -1,7 +1,7 @@
 {
 	"name": "wasmup",
 	"displayName": "wasmup",
-	"description": "Run exteran commands from vscode",
+	"description": "Run commands for vscode",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.56.0"
