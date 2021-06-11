@@ -20,12 +20,12 @@ function activate(context) {
 	context.subscriptions.push(vscode.commands.registerCommand('wasmup.removeEmptyLines', () => {
 		// The code you place here will be executed every time your command is executed
 
-		var editor = vscode.window.activeTextEditor;
+		let editor = vscode.window.activeTextEditor;
 		if (!editor) {
 			return; // No open text editor
 		}
-		var selection = editor.selection;
-		var text = editor.document.getText(selection);
+		let selection = editor.selection;
+		let text = editor.document.getText(selection);
 
 		newText = text.replace(/^\s*$(?:\r\n?|\n)/gm, "");
 
@@ -45,24 +45,26 @@ function activate(context) {
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('wasmup.removeSpace', () => {
-		var editor = vscode.window.activeTextEditor;
+		let editor = vscode.window.activeTextEditor;
 		if (!editor) {
 			return; // No open text editor
 		}
-		var selection = editor.selection;
-		var text = editor.document.getText(selection);
+		let selection = editor.selection;
+		let text = editor.document.getText(selection);
 		newText = text.replace(/[ \t]+/g, '');
 		editor.edit(edit => edit.replace(selection, newText));
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('wasmup.sort', () => {
-		var editor = vscode.window.activeTextEditor;
+		let editor = vscode.window.activeTextEditor;
 		if (!editor) {
 			return; // No open text editor
 		}
-		var selection = editor.selection;
-		var text = editor.document.getText(selection);
-		newText = text.replace(/^\s*$(?:\r\n?|\n)/gm, "");
+		let selection = editor.selection;
+		let text = editor.document.getText(selection);
+		let lines = text.match(/[^\r\n]+/g);
+		lines.sort((a, b) => { return a.localeCompare(b); });
+		let newText = lines.join('\n');
 		editor.edit(edit => edit.replace(selection, newText));
 	}));
 
