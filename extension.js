@@ -17,7 +17,7 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('wasmup.removeEmptyLines', function () {
+	context.subscriptions.push(vscode.commands.registerCommand('wasmup.removeEmptyLines', () => {
 		// The code you place here will be executed every time your command is executed
 
 		var editor = vscode.window.activeTextEditor;
@@ -42,9 +42,30 @@ function activate(context) {
 
 		// Display a message box to the user
 		// vscode.window.showInformationMessage(text);
-	});
+	}));
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(vscode.commands.registerCommand('wasmup.removeSpace', () => {
+		var editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return; // No open text editor
+		}
+		var selection = editor.selection;
+		var text = editor.document.getText(selection);
+		newText = text.replace(/[ \t]+/g, '');
+		editor.edit(edit => edit.replace(selection, newText));
+	}));
+
+	context.subscriptions.push(vscode.commands.registerCommand('wasmup.sort', () => {
+		var editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return; // No open text editor
+		}
+		var selection = editor.selection;
+		var text = editor.document.getText(selection);
+		newText = text.replace(/^\s*$(?:\r\n?|\n)/gm, "");
+		editor.edit(edit => edit.replace(selection, newText));
+	}));
+
 }
 
 // this method is called when your extension is deactivated
